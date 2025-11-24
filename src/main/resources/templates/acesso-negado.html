@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Acesso Negado</title>
+  <style>
+    body {
+      background-color: #0b0b0b;
+      color: #fff;
+      font-family: system-ui, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background-color: #111;
+      padding: 40px 60px;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 200, 83, 0.12);
+      text-align: center;
+    }
+    h1 {
+      color: #00c853;
+      margin-bottom: 10px;
+    }
+    p {
+      color: #ccc;
+    }
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      background: #00c853;
+      color: #071;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🚫 Acesso Negado</h1>
+    <p>Somente <strong>ADMIN</strong> podem Concluir uma Ordem de Serviço.</p>
+    <a th:href="@{/os}">Voltar às Ordens de Serviço</a>
+  </div>
+</body>
+</html>

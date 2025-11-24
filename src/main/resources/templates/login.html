@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - GreenWay</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root { --green: #00c853; --bg: #0b0b0b; --card: #111111; --muted: #c8c8c8; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(1200px 1200px at 10% -10%, rgba(0,200,83,0.12), transparent 60%),
+                  radial-gradient(1000px 800px at 110% 110%, rgba(0,200,83,0.08), transparent 60%),
+                  var(--bg);
+      color: #f0f0f0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .login-card {
+      width: 100%;
+      max-width: 380px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.0)) padding-box,
+                  linear-gradient(180deg, rgba(0,200,83,0.35), rgba(0,200,83,0.0)) border-box,
+                  var(--card);
+      border: 1px solid rgba(0,200,83,0.35);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+      border-radius: 14px;
+      padding: 28px;
+      backdrop-filter: blur(3px);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .brand-badge {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
+      background: var(--green);
+      box-shadow: 0 0 18px rgba(0,200,83,0.7);
+    }
+    h2 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      text-align: center;
+      color: var(--green);
+      text-shadow: 0 0 14px rgba(0,200,83,0.35);
+    }
+    .subtitle {
+      margin-top: 6px;
+      margin-bottom: 18px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .form-group { margin-bottom: 14px; }
+    label { display: block; margin-bottom: 8px; font-size: 13px; color: #e6e6e6; }
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      color: #f5f5f5;
+      outline: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+    input::placeholder { color: #9b9b9b; }
+    input:focus {
+      border-color: rgba(0,200,83,0.7);
+      box-shadow: 0 0 0 3px rgba(0,200,83,0.18);
+      background: #171717;
+    }
+    .actions { margin-top: 8px; }
+    button[type="submit"] {
+      width: 100%;
+      padding: 12px 16px;
+      border: 0;
+      border-radius: 10px;
+      background: var(--green);
+      color: #0b0b0b;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      cursor: pointer;
+      transition: transform 80ms ease, filter 160ms ease, box-shadow 160ms ease;
+      box-shadow: 0 10px 18px rgba(0,200,83,0.25);
+    }
+    button[type="submit"]:hover { filter: brightness(0.95); }
+    button[type="submit"]:active { transform: translateY(1px); }
+    .alerts { margin-bottom: 12px; }
+    .alert {
+      padding: 10px 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      margin-bottom: 10px;
+      border: 1px solid transparent;
+    }
+    .alert-error {
+      color: #ffb3b3;
+      background: rgba(255,82,82,0.08);
+      border-color: rgba(255,82,82,0.25);
+    }
+    .alert-success {
+      color: #b7ffd6;
+      background: rgba(0,200,83,0.08);
+      border-color: rgba(0,200,83,0.35);
+    }
+    .footer-note {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 12px;
+      color: #a7a7a7;
+    }
+  </style>
+</head>
+<body>
+  <main class="login-card">
+    <div class="brand">
+      <span class="brand-badge"></span>
+      <h2>GreenWay</h2>
+    </div>
+    <p class="subtitle">Faça login para continuar</p>
+
+    <div class="alerts">
+      <div class="alert alert-error" th:if="${param.error}">Credenciais inválidas.</div>
+      <div class="alert alert-success" th:if="${param.logout}">Deslogado com sucesso.</div>
+    </div>
+
+    <form th:action="@{/login}" method="post">
+      <div class="form-group">
+        <label for="username">Usuário</label>
+        <input id="username" type="text" name="username" placeholder="Seu usuário" required/>
+      </div>
+      <div class="form-group">
+        <label for="password">Senha</label>
+        <input id="password" type="password" name="password" placeholder="Sua senha" required/>
+      </div>
+      <div class="actions">
+        <button type="submit">Entrar</button>
+      </div>
+    </form>
+	<div class="footer-note">
+	  <a th:href="@{/usuarios/cadastrar}" 
+	     style="color: var(--green); text-decoration: none; font-weight: 600;">
+	     Cadastrar Usuário
+	  </a>
+	</div>
+
+    <div class="footer-note">Segurança garantida • Ambiente GreenWay</div>
+  </main>
+</body>
+</html>

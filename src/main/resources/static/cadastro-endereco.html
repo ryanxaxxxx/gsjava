@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Endereço - GreenWay</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2d8659 0%, #1e5d3f 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #2d8659 0%, #1e5d3f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2d8659;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input[type="text"]:focus {
+            border-color: #2d8659;
+            box-shadow: 0 0 0 3px rgba(45, 134, 89, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #2d8659 0%, #1e5d3f 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(45, 134, 89, 0.3);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(45, 134, 89, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2d8659;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .back-link:hover {
+            color: #1e5d3f;
+            transform: translateX(-5px);
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .logo {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🌱 GreenWay</div>
+            <div class="subtitle">Cadastrar Novo Destino</div>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            ✓ Endereço cadastrado com sucesso!
+        </div>
+
+        <form action="/api/enderecos" method="POST" id="enderecoForm">
+            <div class="form-group">
+                <label for="endereco">Endereço</label>
+                <input type="text" id="endereco" name="endereco" required 
+                       placeholder="Ex: Rua das Flores">
+            </div>
+
+            <div class="form-group">
+                <label for="numero">Número</label>
+                <input type="text" id="numero" name="numero" required 
+                       placeholder="Ex: 123">
+            </div>
+
+            <div class="form-group">
+                <label for="cep">CEP</label>
+                <input type="text" id="cep" name="cep" required 
+                       placeholder="Ex: 12345-678">
+            </div>
+
+            <button type="submit" class="btn-submit">Salvar Endereço</button>
+        </form>
+
+        <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
+            <a href="/enderecos" class="back-link" style="margin: 0;">
+                📋 Ver Endereços
+            </a>
+            <a href="/index.html" class="back-link" style="margin: 0;">
+                ← Voltar para Home
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('enderecoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new URLSearchParams();
+            formData.append('endereco', document.getElementById('endereco').value);
+            formData.append('numero', document.getElementById('numero').value);
+            formData.append('cep', document.getElementById('cep').value);
+            
+            const successMessage = document.getElementById('successMessage');
+            
+            fetch('/api/enderecos', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    successMessage.style.display = 'block';
+                    this.reset();
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 3000);
+                } else {
+                    response.text().then(text => {
+                        alert('Erro ao cadastrar endereço: ' + text);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Erro ao cadastrar endereço. Tente novamente.');
+            });
+        });
+    </script>
+</body>
+</html>

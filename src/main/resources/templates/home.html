@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Home - GreenWay</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root { --green: #00c853; --bg: #0b0b0b; --card: #111111; --muted: #c8c8c8; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(1200px 1200px at 10% -10%, rgba(0,200,83,0.12), transparent 60%),
+                  radial-gradient(1000px 800px at 110% 110%, rgba(0,200,83,0.08), transparent 60%),
+                  var(--bg);
+      color: #f0f0f0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+      padding: 24px;
+    }
+    .container { max-width: 940px; margin: 0 auto; }
+    .hero {
+      background: var(--card);
+      border: 1px solid rgba(0,200,83,0.35);
+      border-radius: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.45);
+      padding: 26px;
+      display: grid;
+      gap: 10px;
+    }
+    h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--green);
+      text-shadow: 0 0 14px rgba(0,200,83,0.35);
+    }
+    .message { color: var(--muted); margin: 2px 0 12px 0; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    a.button {
+      display: inline-block;
+      padding: 12px 16px;
+      background: var(--green);
+      color: #0b0b0b;
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0,200,83,0.25);
+      transition: transform 80ms ease, filter 160ms ease;
+    }
+    a.button.secondary {
+      background: transparent;
+      color: #eafdea;
+      border: 1px solid rgba(0,200,83,0.35);
+    }
+    a.button:hover { filter: brightness(0.95); }
+    a.button:active { transform: translateY(1px); }
+  </style>
+</head>
+<body>
+  <div th:replace="fragmentos :: header"></div>
+  <div th:replace="fragmentos :: menu"></div>
+
+  <div class="container">
+    <section class="hero">
+      <h2>Bem-vindo, <span th:text="${username}">Usuário</span>!</h2>
+      <p class="message">Bem-vindo ao GreenWay! Gerencie seus endereços e usuários com praticidade.</p>
+      <div class="actions">
+        <a class="button" th:href="@{/enderecos}">Visualizar Endereços</a>
+        <a class="button secondary" th:href="@{/enderecos/novo}">Cadastrar Novo Endereço</a>
+      </div>
+    </section>
+  </div>
+
+  <div th:replace="fragmentos :: footer"></div>
+</body>
+</html>

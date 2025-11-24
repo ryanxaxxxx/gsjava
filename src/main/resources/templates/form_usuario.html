@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastrar Usuário - GreenWay</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background-color: #1a1a1a;
+            padding: 30px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+        h2 {
+            text-align: center;
+            color: #00c853;
+        }
+        form div {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid #2a2a2a;
+            background-color: #111;
+            color: #f0f0f0;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background-color: #00c853;
+            color: #111;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            filter: brightness(0.9);
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .actions a {
+            text-decoration: none;
+            color: #00c853;
+            padding: 10px 15px;
+            border: 1px solid #00c853;
+            border-radius: 8px;
+        }
+        .alert {
+            background-color: rgba(255, 82, 82, 0.1);
+            color: #ff4d4d;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>Cadastrar Usuário</h2>
+
+        <div th:if="${error}" class="alert" th:text="${error}"></div>
+        <div th:if="${success}" class="alert" style="background-color: rgba(0, 200, 83, 0.1); color: #00c853; border-color: rgba(0, 200, 83, 0.35);" th:text="${success}"></div>
+
+        <form th:action="@{/usuarios/salvar}" th:object="${usuario}" method="post">
+            <div>
+                <label>Nome:</label>
+                <input type="text" th:field="*{name}" required />
+            </div>
+            <div>
+                <label>Email:</label>
+                <input type="email" th:field="*{email}" required />
+            </div>
+            <div>
+                <label>Senha:</label>
+                <input type="password" th:field="*{password}" required />
+            </div>
+            <div>
+                <label>Telefone:</label>
+                <input type="text" th:field="*{phone}" />
+            </div>
+
+            <div class="actions">
+                <button type="submit">Cadastrar</button>
+                <a th:href="@{/login}">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

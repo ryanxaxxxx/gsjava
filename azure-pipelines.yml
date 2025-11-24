@@ -1,0 +1,56 @@
+# Azure DevOps Pipeline para GreenWay
+# Este arquivo pode ser usado como base para configurar o pipeline no Azure DevOps
+
+trigger:
+  branches:
+    include:
+      - main
+      - master
+      - develop
+
+pool:
+  vmImage: 'ubuntu-latest'  # ou 'windows-latest' se preferir Windows
+
+variables:
+  mavenAuthenticate: true
+  javaVersion: '17'
+
+steps:
+  # Configurar Java
+  - task: JavaToolInstaller@0
+    inputs:
+      versionSpec: '17'
+      jdkArchitecture: 'x64'
+      jdkSource: 'PreInstalled'
+
+  # Cache do Maven para acelerar builds
+  - task: Cache@2
+    inputs:
+      key: 'maven | "$(Agent.OS)" | pom.xml'
+      restoreKeys: |
+        maven | "$(Agent.OS)"
+      path: '$(MAVEN_CACHE_FOLDER)'
+
+  # Compilar e testar
+  - task: Maven@3
+    displayName: 'Maven Build and Test'
+    inputs:
+      mavenPomFile: 'pom.xml'
+      goals: 'clean package'
+      options: '-DskipTests=false -Dspring.profiles.active=test'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.17'
+      jdkArchitectureOption: 'x64'
+      publishJUnitResults: true
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      testRunTitle: 'Test Results'
+    continueOnError: false
+
+  # Publicar artefatos
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifacts'
+    inputs:
+      pathToPublish: 'target'
+      artifactName: 'drop'
+      publishLocation: 'Container'
+

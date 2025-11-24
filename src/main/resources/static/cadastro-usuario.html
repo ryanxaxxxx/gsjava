@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Usuário - GreenWay</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2d8659 0%, #1e5d3f 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #2d8659 0%, #1e5d3f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2d8659;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #2d8659;
+            box-shadow: 0 0 0 3px rgba(45, 134, 89, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #2d8659 0%, #1e5d3f 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(45, 134, 89, 0.3);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(45, 134, 89, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2d8659;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .back-link:hover {
+            color: #1e5d3f;
+            transform: translateX(-5px);
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .login-link a {
+            color: #2d8659;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .logo {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🌱 GreenWay</div>
+            <div class="subtitle">Criar Nova Conta</div>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            ✓ Usuário cadastrado com sucesso!
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <form action="/api/auth/register" method="POST" id="registerForm">
+            <div class="form-group">
+                <label for="name">Nome Completo</label>
+                <input type="text" id="name" name="name" required 
+                       placeholder="Ex: João Silva">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required 
+                       placeholder="Ex: joao@example.com">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" required 
+                       placeholder="Digite sua senha" minlength="6">
+            </div>
+
+            <button type="submit" class="btn-submit">Cadastrar</button>
+        </form>
+
+        <div class="login-link">
+            Já tem uma conta? <a href="/login.html">Faça login</a>
+        </div>
+
+        <div style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
+            <a href="/index.html" class="back-link" style="margin: 0;">
+                ← Voltar para Home
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Esconder mensagens anteriores
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+            
+            // Validação básica
+            if (password.length < 6) {
+                errorMessage.textContent = 'A senha deve ter no mínimo 6 caracteres';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            const formData = new URLSearchParams();
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('password', password);
+            
+            fetch('/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: formData
+            })
+            .then(response => {
+                return response.json().then(data => {
+                    if (response.ok) {
+                        successMessage.style.display = 'block';
+                        this.reset();
+                        setTimeout(() => {
+                            successMessage.style.display = 'none';
+                            // Redirecionar para login após 2 segundos
+                            window.location.href = '/login.html';
+                        }, 2000);
+                    } else {
+                        errorMessage.textContent = data.error || 'Erro ao cadastrar usuário. Tente novamente.';
+                        errorMessage.style.display = 'block';
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                errorMessage.textContent = 'Erro ao cadastrar usuário. Tente novamente.';
+                errorMessage.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
+

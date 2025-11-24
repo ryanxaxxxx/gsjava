@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - GreenWay</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2d8659 0%, #1e5d3f 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 450px;
+            width: 100%;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 2.5em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #2d8659 0%, #1e5d3f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2d8659;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #2d8659;
+            box-shadow: 0 0 0 3px rgba(45, 134, 89, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #2d8659 0%, #1e5d3f 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(45, 134, 89, 0.3);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(45, 134, 89, 0.4);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 0.95em;
+        }
+
+        .register-link a {
+            color: #2d8659;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            .logo {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🌱 GreenWay</div>
+            <div class="subtitle">Bem-vindo de volta!</div>
+        </div>
+
+        <div class="error-message" id="errorMessage"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required 
+                       placeholder="Digite seu email" autocomplete="email">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" required 
+                       placeholder="Digite sua senha" autocomplete="current-password">
+            </div>
+
+            <button type="submit" class="btn-submit">Entrar</button>
+        </form>
+
+        <div class="register-link">
+            Não tem uma conta? <a href="/cadastro-usuario.html">Cadastre-se</a>
+        </div>
+    </div>
+
+    <script>
+        // Verificar se já está autenticado
+        const token = localStorage.getItem('token');
+        if (token) {
+            window.location.href = '/index.html';
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Esconder mensagem de erro anterior
+            errorMessage.style.display = 'none';
+            
+            fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email,
+                    senha: password
+                })
+            })
+            .then(response => {
+                return response.json().then(data => {
+                    if (response.ok && data.token) {
+                        // Salvar token no localStorage
+                        localStorage.setItem('token', data.token);
+                        localStorage.setItem('userEmail', email);
+                        
+                        // Redirecionar para o mapa
+                        window.location.href = '/index.html';
+                    } else {
+                        errorMessage.textContent = data.error || 'Email ou senha inválidos';
+                        errorMessage.style.display = 'block';
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                errorMessage.textContent = 'Erro ao fazer login. Tente novamente.';
+                errorMessage.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
+

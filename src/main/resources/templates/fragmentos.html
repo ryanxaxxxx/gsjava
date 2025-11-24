@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Fragments</title>
+</head>
+<body>
+  <div th:fragment="header">
+    <div style="
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:16px 20px;margin-bottom:8px;
+      background:#111111;color:#e9ffe6;
+      border-bottom:1px solid rgba(0,200,83,0.35);
+      box-shadow:0 6px 18px rgba(0,0,0,0.35);">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="width:12px;height:12px;border-radius:3px;background:#00c853;box-shadow:0 0 14px rgba(0,200,83,0.6);"></span>
+        <strong style="font-size:18px;letter-spacing:.3px;color:#00c853;text-shadow:0 0 12px rgba(0,200,83,0.35);">GreenWay</strong>
+        <span style="color:#c8c8c8;">Sistema</span>
+      </div>
+      <div style="color:#a7a7a7;font-size:12px;">© 2025</div>
+    </div>
+  </div>
+
+  <div th:fragment="menu">
+    <nav style="
+      display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+      padding:10px 20px;margin-bottom:18px;">
+      <a th:href="@{/home}" style="
+        padding:8px 12px;border-radius:10px;text-decoration:none;
+        color:#eafdea;border:1px solid rgba(0,200,83,0.35);background:transparent;">Home</a>
+      <a th:href="@{/enderecos}" style="
+        padding:8px 12px;border-radius:10px;text-decoration:none;
+        color:#0b0b0b;background:#00c853;box-shadow:0 6px 12px rgba(0,200,83,0.25);font-weight:700;">Endereços</a>
+      <span style="flex:1 1 auto"></span>
+	  <a th:href="@{/login}" style="
+	      padding:8px 12px;border-radius:10px;text-decoration:none;
+	      color:#eafdea;border:1px solid #2a2a2a;background:#1a1a1a;">Sair</a>
+    </nav>
+  </div>
+
+  <div th:fragment="footer">
+    <footer style="
+      margin-top:20px;padding:16px 20px;text-align:center;
+      color:#a7a7a7;border-top:1px solid #262626;">
+      <span>Feito com 
+        <span style="color:#00c853;text-shadow:0 0 10px rgba(0,200,83,0.35);">GreenWay</span>
+      </span>
+    </footer>
+  </div>
+</body>
+</html>
